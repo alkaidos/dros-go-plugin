@@ -1,12 +1,11 @@
 package api_report
 
 import (
-	"dros-go-plugin/plugins"
-	pluginConfig "dros-go-plugin/plugins"
-	"dros-go-plugin/proxy/base_proxy_vo"
-	"dros-go-plugin/proxy/user_proxy_vo"
 	"encoding/json"
 	"errors"
+	"github.com/alkaidos/dros-go-plugin/plugins"
+	"github.com/alkaidos/dros-go-plugin/proxy/base_proxy_vo"
+	"github.com/alkaidos/dros-go-plugin/proxy/user_proxy_vo"
 	baseHttp "github.com/isyscore/isc-gobase/http"
 	"github.com/isyscore/isc-gobase/logger"
 	"net/http"
@@ -25,7 +24,7 @@ type Post struct { //带结构标签，反引号来包围字符串
 
 func init() {
 	// api注册
-	if !register && pluginConfig.PluginConfig.ApiConf.Enable {
+	if !register && plugins.PluginConfig.ApiConf.Enable {
 		registerApi()
 		register = true
 	}
@@ -39,8 +38,8 @@ func registerApi() {
 	header.Add("token", token)
 	parameterMap := map[string]string{}
 	//parameterMap["type"] = "UDMP"
-	url := pluginConfig.PluginConfig.ApiConf.RegisterHost
-	swaggerData, err := plugins.GetFileInfo(pluginConfig.PluginConfig.ApiConf.SwaggerFilePath)
+	url := plugins.PluginConfig.ApiConf.RegisterHost
+	swaggerData, err := plugins.GetFileInfo(plugins.PluginConfig.ApiConf.SwaggerFilePath)
 	if err != nil {
 		logger.Error("注册服务api信息:读取swaggerInfo失败", err.Error())
 		return

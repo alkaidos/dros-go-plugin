@@ -1,7 +1,7 @@
 package service_register
 
 import (
-	pluginConfig "dros-go-plugin/plugins"
+	"github.com/alkaidos/dros-go-plugin/plugins"
 	baseHttp "github.com/isyscore/isc-gobase/http"
 	"github.com/isyscore/isc-gobase/logger"
 	"net/http"
@@ -13,7 +13,7 @@ var register = false
 func init() {
 
 	// api注册
-	if !register && pluginConfig.PluginConfig.AppConf.Enable {
+	if !register && plugins.PluginConfig.AppConf.Enable {
 		registerServiceRoute()
 		register = true
 	}
@@ -30,12 +30,12 @@ func registerService() {
 	header := http.Header{}
 	header.Set("Content-Type", "application/json;charset=UTF-8")
 	parameter := map[string]any{}
-	parameter["serviceId"] = pluginConfig.PluginConfig.AppConf.ServiceId
-	parameter["serviceName"] = pluginConfig.PluginConfig.AppConf.ServiceName
-	parameter["servicePath"] = pluginConfig.PluginConfig.AppConf.ServicePath
-	parameter["serviceUrl"] = pluginConfig.PluginConfig.AppConf.ServiceUrl
+	parameter["serviceId"] = plugins.PluginConfig.AppConf.ServiceId
+	parameter["serviceName"] = plugins.PluginConfig.AppConf.ServiceName
+	parameter["servicePath"] = plugins.PluginConfig.AppConf.ServicePath
+	parameter["serviceUrl"] = plugins.PluginConfig.AppConf.ServiceUrl
 	parameter["serviceEnable"] = true
-	_, _, _, err := baseHttp.Post(pluginConfig.PluginConfig.AppConf.RegisterAppUrl+"/api/rc-application/open/service/register", header, nil, parameter)
+	_, _, _, err := baseHttp.Post(plugins.PluginConfig.AppConf.RegisterAppUrl+"/api/rc-application/open/service/register", header, nil, parameter)
 	if err != nil {
 		logger.Error("请求注册服务信息失败", err.Error())
 	} else {
@@ -49,11 +49,11 @@ func registerRoute() {
 	header := http.Header{}
 	header.Set("Content-Type", "application/json;charset=UTF-8")
 	parameter := map[string]any{}
-	parameter["serviceId"] = pluginConfig.PluginConfig.AppConf.ServiceId
-	parameter["url"] = pluginConfig.PluginConfig.AppConf.ServiceUrl
-	parameter["path"] = pluginConfig.PluginConfig.AppConf.ServicePath
-	parameter["excludeUrl"] = strings.Split(pluginConfig.PluginConfig.AppConf.ExcludeUrl, ";")
-	_, _, _, err := baseHttp.Put(pluginConfig.PluginConfig.AppConf.RegisterAppUrl+"/api/route/update/exclude", header, nil, parameter)
+	parameter["serviceId"] = plugins.PluginConfig.AppConf.ServiceId
+	parameter["url"] = plugins.PluginConfig.AppConf.ServiceUrl
+	parameter["path"] = plugins.PluginConfig.AppConf.ServicePath
+	parameter["excludeUrl"] = strings.Split(plugins.PluginConfig.AppConf.ExcludeUrl, ";")
+	_, _, _, err := baseHttp.Put(plugins.PluginConfig.AppConf.RegisterAppUrl+"/api/route/update/exclude", header, nil, parameter)
 	if err != nil {
 		logger.Error("请求注册路由信息失败", err.Error())
 	} else {

@@ -9,9 +9,9 @@ import (
 	"os/signal"
 	"syscall"
 )
-import _ "dros-go-plugin/docs"
-import _ "dros-go-plugin/plugins/api_report"
-import _ "dros-go-plugin/plugins/service_register"
+import _ "github.com/alkaidos/dros-go-plugin/docs"
+import _ "github.com/alkaidos/dros-go-plugin/plugins/api_report"
+import _ "github.com/alkaidos/dros-go-plugin/plugins/service_register"
 import ginSwagger "github.com/swaggo/gin-swagger"
 import swaggerFiles "github.com/swaggo/files"
 

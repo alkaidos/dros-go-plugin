@@ -1,4 +1,4 @@
-module dros-go-plugin
+module github.com/alkaidos/dros-go-plugin
 
 go 1.18
 
