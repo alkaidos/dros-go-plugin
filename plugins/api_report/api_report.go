@@ -45,7 +45,6 @@ func registerApi() error {
 	}
 	header.Add("token", token)
 	parameterMap := map[string]string{}
-	//parameterMap["type"] = "UDMP"
 	url := plugins.PluginConfig.ApiConf.RegisterHost
 	swaggerData, err := plugins.GetFileInfo(plugins.PluginConfig.ApiConf.SwaggerFilePath)
 	if err != nil {
