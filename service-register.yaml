@@ -1,0 +1,35 @@
+apiRegister:
+  enable: true
+  registerHost: http://10.101.12.158:38080
+  swaggerFilePath: /docs/swagger.json
+appRegister:
+  # 是否执行自动注册
+  enable: true
+  #连接超时 ms
+  connectTimeout: 3000
+  #读取超时 ms
+  readTimeout: 15000
+  appId: dros-go-plugin
+  # appCode有运维同学事先分配，需要和部署脚本里面的定义保持一致
+  appCode: dros-go-plugin
+  #必填:应用名称可以是中文、英文、数字, 最长 64 位, 推荐尽量简短义明, 应用名称作为OS桌面应用菜单上的显示名称
+  appName: dros插件管理
+  #必填:服务开关, 当希望与OS进行联调时开启, 当希望仅本地运行时关闭
+  isMainService: true
+  in-menu: 2
+  # serviceName 由运维同学事先分配，需要和部署脚本里面的定义保持一致
+  serviceName: dros-go-plugin-service
+  # serviceId = serviceName
+  serviceId: dros-go-plugin-service
+  # 配置应用服务对外访问的路径，不配置会导致url无法被访问
+  servicePath: /api/app/dros-go-plugin/**
+  # 配置网关层service，固定值
+  serverHost: http://isc-route-service:31000
+  # 配置应用注册中心地址，应用在os的k8s启动时会调用这个服务进行自动注册，固定值
+  registerAppUrl: http://isc-route-service:31000
+  # 配置应用服务访问的服务入口，格式为serviceName:servicePort
+  serviceUrl: http://dros-go-plugin-service:99999
+  # 配置不需要进行登录校验的url，该配置会在route-service层绕过登录插件
+  excludeUrl: /all
+  app-version: v1.0.0
+  type: 3

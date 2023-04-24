@@ -1,0 +1,498 @@
+{
+  "info": {
+    "title": "华兰血源",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "三方应用-插件测试应用"
+    }
+  ],
+  "paths": {
+    "/NonConformingPlasmaSorting/getSortingNo21": {
+      "get": {
+        "summary": "获取历史批号",
+        "x-apifox-folder": "三方应用-插件测试应用",
+        "x-apifox-status": "released",
+        "deprecated": false,
+        "description": "",
+        "operationId": "getSortingNoUsingGET21",
+        "tags": [
+          "三方应用-插件测试应用"
+        ],
+        "parameters": [
+          {
+            "name": "systemSortingId",
+            "in": "query",
+            "description": "systemSortingId",
+            "required": true,
+            "type": "string",
+            "x-example": ""
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "令牌",
+            "required": false,
+            "type": "string",
+            "x-example": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Result%C2%ABList%C2%ABstring%C2%BB%C2%BB"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "x-apifox-orders": [],
+              "x-apifox-ignore-properties": []
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "x-apifox-orders": [],
+              "x-apifox-ignore-properties": []
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "x-apifox-orders": [],
+              "x-apifox-ignore-properties": []
+            }
+          }
+        },
+        "x-run-in-apifox": "https://www.apifox.cn/web/project/2542199/apis/api-73039235-run",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/NonConformingPlasmaSorting/addSortingNo21": {
+      "get": {
+        "summary": "新建分拣号",
+        "x-apifox-folder": "分拣计划-不合格血浆分拣",
+        "x-apifox-status": "released",
+        "deprecated": false,
+        "description": "",
+        "operationId": "addSortingNoUsingGET22",
+        "tags": [
+          "三方应用-插件测试应用"
+        ],
+        "parameters": [
+          {
+            "name": "systemSortingId",
+            "in": "query",
+            "description": "systemSortingId",
+            "required": true,
+            "type": "string",
+            "x-example": ""
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "令牌",
+            "required": false,
+            "type": "string",
+            "x-example": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Result%C2%ABstring%C2%BB"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "x-apifox-orders": [],
+              "x-apifox-ignore-properties": []
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "x-apifox-orders": [],
+              "x-apifox-ignore-properties": []
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "x-apifox-orders": [],
+              "x-apifox-ignore-properties": []
+            }
+          }
+        },
+        "x-run-in-apifox": "https://www.apifox.cn/web/project/2542199/apis/api-73039236-run",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/NonConformingPlasmaSorting/querySortingNo21": {
+      "get": {
+        "summary": "查询分拣号",
+        "x-apifox-folder": "分拣计划-不合格血浆分拣",
+        "x-apifox-status": "released",
+        "deprecated": false,
+        "description": "",
+        "operationId": "test23",
+        "tags": [
+          "三方应用-插件测试应用"
+        ],
+        "parameters": [
+          {
+            "name": "systemSortingId",
+            "in": "query",
+            "description": "systemSortingId",
+            "required": true,
+            "type": "string",
+            "x-example": ""
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "令牌",
+            "required": false,
+            "type": "string",
+            "x-example": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Result%C2%ABstring%C2%BB"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "x-apifox-orders": [],
+              "x-apifox-ignore-properties": []
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "x-apifox-orders": [],
+              "x-apifox-ignore-properties": []
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "x-apifox-orders": [],
+              "x-apifox-ignore-properties": []
+            }
+          }
+        },
+        "x-run-in-apifox": "https://www.apifox.cn/web/project/2542199/apis/api-73039236-run",
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "swagger": "2.0",
+  "definitions": {
+    "SubmitSortingDTO": {
+      "type": "object",
+      "properties": {
+        "checkNo": {
+          "type": "string",
+          "description": "核查批号"
+        },
+        "plasmaNo": {
+          "type": "array",
+          "description": "血浆",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sortingNo": {
+          "type": "string",
+          "description": "分拣计划号"
+        },
+        "systemSortingId": {
+          "type": "string",
+          "description": "分拣计划类型id"
+        }
+      },
+      "title": "SubmitSortingDTO",
+      "x-apifox-orders": [
+        "checkNo",
+        "plasmaNo",
+        "sortingNo",
+        "systemSortingId"
+      ],
+      "x-apifox-ignore-properties": [],
+      "x-apifox-folder": "Schemas"
+    },
+    "Result«ScanNonConformingPlasmaVO»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "data": {
+          "$ref": "#/definitions/ScanNonConformingPlasmaVO"
+        },
+        "message": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "Result«ScanNonConformingPlasmaVO»",
+      "x-apifox-orders": [
+        "code",
+        "data",
+        "message",
+        "name"
+      ],
+      "x-apifox-ignore-properties": [],
+      "x-apifox-folder": "Schemas"
+    },
+    "ScanNonConformingPlasmaVO": {
+      "type": "object",
+      "properties": {
+        "boxId": {
+          "type": "string",
+          "description": "箱号"
+        },
+        "plasmaDonorName": {
+          "type": "string",
+          "description": "献浆者姓名"
+        },
+        "plasmaDonorNo": {
+          "type": "string",
+          "description": "献浆者编号"
+        },
+        "plasmaNo": {
+          "type": "string",
+          "description": "血浆编号（业务主键）"
+        },
+        "slurryDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "采浆日期"
+        },
+        "systemSortingId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "分批标识id"
+        },
+        "unqualifiedItems": {
+          "type": "string",
+          "description": "不合格项目"
+        },
+        "weight": {
+          "type": "integer",
+          "format": "int64",
+          "description": "重量"
+        }
+      },
+      "title": "ScanNonConformingPlasmaVO",
+      "x-apifox-orders": [
+        "boxId",
+        "plasmaDonorName",
+        "plasmaDonorNo",
+        "plasmaNo",
+        "slurryDate",
+        "systemSortingId",
+        "unqualifiedItems",
+        "weight"
+      ],
+      "x-apifox-ignore-properties": [],
+      "x-apifox-folder": "Schemas"
+    },
+    "Result«List«NonConformingPlasmaTypeVO»»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NonConformingPlasmaTypeVO"
+          }
+        },
+        "message": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "Result«List«NonConformingPlasmaTypeVO»»",
+      "x-apifox-orders": [
+        "code",
+        "data",
+        "message",
+        "name"
+      ],
+      "x-apifox-ignore-properties": [],
+      "x-apifox-folder": "Schemas"
+    },
+    "NonConformingPlasmaTypeVO": {
+      "type": "object",
+      "properties": {
+        "batchLog": {
+          "type": "string",
+          "description": "分批标识"
+        },
+        "colour": {
+          "type": "string",
+          "description": "颜色"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "免疫类型管理"
+        },
+        "sortingCode": {
+          "type": "string",
+          "description": "未通过类型子类型"
+        },
+        "sortingType": {
+          "type": "integer",
+          "format": "int32",
+          "description": "所属类型"
+        },
+        "subBoxLog": {
+          "type": "string",
+          "description": "分箱标识"
+        },
+        "titerDown": {
+          "type": "number",
+          "format": "double",
+          "description": "效价下限"
+        },
+        "titerUp": {
+          "type": "number",
+          "format": "double",
+          "description": "效价上限"
+        },
+        "typeDescribe": {
+          "type": "string",
+          "description": "类型描述"
+        },
+        "useFlag": {
+          "type": "integer",
+          "format": "int32",
+          "description": "启用标志 1启用"
+        },
+        "voiceFile": {
+          "type": "string",
+          "description": "语音文件"
+        }
+      },
+      "title": "NonConformingPlasmaTypeVO",
+      "x-apifox-orders": [
+        "batchLog",
+        "colour",
+        "id",
+        "sortingCode",
+        "sortingType",
+        "subBoxLog",
+        "titerDown",
+        "titerUp",
+        "typeDescribe",
+        "useFlag",
+        "voiceFile"
+      ],
+      "x-apifox-ignore-properties": [],
+      "x-apifox-folder": "Schemas"
+    },
+    "Result«string»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "data": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "Result«string»",
+      "x-apifox-orders": [
+        "code",
+        "data",
+        "message",
+        "name"
+      ],
+      "x-apifox-ignore-properties": [],
+      "x-apifox-folder": "Schemas"
+    },
+    "Result«List«string»»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "message": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "Result«List«string»»",
+      "x-apifox-orders": [
+        "code",
+        "data",
+        "message",
+        "name"
+      ],
+      "x-apifox-ignore-properties": [],
+      "x-apifox-folder": "Schemas"
+    }
+  },
+  "x-components": {}
+}
