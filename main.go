@@ -39,7 +39,8 @@ func main() {
 
 	engine = gin.New()
 	engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	serverStart()
+	engine.Run(":8080")
+	//serverStart()
 }
 
 func serverStart() {

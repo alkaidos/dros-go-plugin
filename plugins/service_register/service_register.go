@@ -37,7 +37,8 @@ func registerService() {
 	parameter["serviceEnable"] = true
 	_, _, _, err := baseHttp.Post(plugins.PluginConfig.AppConf.RegisterAppUrl+"/api/rc-application/open/service/register", header, nil, parameter)
 	if err != nil {
-		logger.Error("请求注册服务信息失败", err.Error())
+		//logger.Error("请求注册服务信息失败", err.Error())
+		panic("请求注册服务信息失败,原因:" + err.Error())
 	} else {
 		logger.Warn("请求注册服务信息成功")
 	}
@@ -55,7 +56,8 @@ func registerRoute() {
 	parameter["excludeUrl"] = strings.Split(plugins.PluginConfig.AppConf.ExcludeUrl, ";")
 	_, _, _, err := baseHttp.Put(plugins.PluginConfig.AppConf.RegisterAppUrl+"/api/route/update/exclude", header, nil, parameter)
 	if err != nil {
-		logger.Error("请求注册路由信息失败", err.Error())
+		//logger.Error("请求注册路由信息失败", err.Error())
+		panic("请求注册路由信息失败,原因:" + err.Error())
 	} else {
 		logger.Warn("请求注册路由信息成功")
 	}
