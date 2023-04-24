@@ -30,6 +30,7 @@ type ApiRegisterConf struct {
 	Enable          bool   `json:"enable" yaml:"enable"`
 	RegisterHost    string `json:"registerHost" yaml:"registerHost"`
 	SwaggerFilePath string `json:"swaggerFilePath" yaml:"swaggerFilePath"`
+	PermissionHost  string `json:"permissionHost" yaml:"permissionHost"`
 }
 
 type AppRegisterConf struct {

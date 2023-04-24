@@ -39,7 +39,10 @@ func registerApi() error {
 	//处理请求查询字段
 	header := http.Header{}
 	header.Set("Content-Type", "application/json")
-	token := "607504c5-75d9-4f43-a729-d7991d40e6ca"
+	token, err := getToken()
+	if err != nil {
+		return errors.New("注册服务api信息:获取应用授权token失败" + err.Error())
+	}
 	header.Add("token", token)
 	parameterMap := map[string]string{}
 	//parameterMap["type"] = "UDMP"
@@ -75,8 +78,7 @@ func getToken() (string, error) {
 	bodyMap := map[string]any{}
 	bodyMap["appCode"] = "tddm"
 	bodyMap["appSecret"] = "e6874c0a4b397e3d6b59"
-	url := "http://10.101.12.156:38080"
-	_, _, data, err := baseHttp.Post(url+"/api/permission/app/token/grant", header, nil, bodyMap)
+	_, _, data, err := baseHttp.Post(plugins.PluginConfig.ApiConf.PermissionHost+"/api/permission/app/token/grant", header, nil, bodyMap)
 	if err != nil {
 		logger.Error("上报api：请求获取token失败", err.Error())
 		return "", errors.New("上报api：请求获取token失败:" + err.Error())
