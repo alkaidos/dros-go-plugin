@@ -3,6 +3,10 @@ apiRegister:
   registerHost: http://10.101.12.158:38080
   swaggerFilePath: /docs/swagger.json
   permissionHost: http://10.101.12.156:32100
+  apiManagerHost: http://dros-api-manager-service:40106
+  groupName: 插件管理
+  apiServiceName: dros-go-plugin
+  type: NATIVE
 appRegister:
   # 是否执行自动注册
   enable: true
@@ -14,7 +18,7 @@ appRegister:
   # appCode有运维同学事先分配，需要和部署脚本里面的定义保持一致
   appCode: dros-go-plugin
   #必填:应用名称可以是中文、英文、数字, 最长 64 位, 推荐尽量简短义明, 应用名称作为OS桌面应用菜单上的显示名称
-  appName: dros插件管理
+  appName: 插件管理
   #必填:服务开关, 当希望与OS进行联调时开启, 当希望仅本地运行时关闭
   isMainService: true
   in-menu: 2

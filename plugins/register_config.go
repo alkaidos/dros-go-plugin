@@ -31,6 +31,10 @@ type ApiRegisterConf struct {
 	RegisterHost    string `json:"registerHost" yaml:"registerHost"`
 	SwaggerFilePath string `json:"swaggerFilePath" yaml:"swaggerFilePath"`
 	PermissionHost  string `json:"permissionHost" yaml:"permissionHost"`
+	GroupName       string `json:"groupName" yaml:"groupName"`
+	ApiServiceCode  string `json:"apiServiceCode" yaml:"apiServiceCode"`
+	ApiManagerHost  string `json:"apiManagerHost" yaml:"apiManagerHost"`
+	Type            string `json:"type" yaml:"type"`
 }
 
 type AppRegisterConf struct {
