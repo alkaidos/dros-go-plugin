@@ -4,6 +4,7 @@ import (
 	"github.com/isyscore/isc-gobase/logger"
 	"github.com/mitchellh/mapstructure"
 	"gopkg.in/yaml.v2"
+	"reflect"
 	"sync"
 )
 
@@ -58,7 +59,13 @@ type AppRegisterConf struct {
 	Type           int    `yaml:"type"`
 }
 
-func NewDefaultConf() *AppRegisterConf {
+func defaultApiConf() *ApiRegisterConf {
+	return &ApiRegisterConf{
+		Enable: false,
+	}
+}
+
+func defaultAppConf() *AppRegisterConf {
 	return &AppRegisterConf{
 		ConnectTimeout: 3000,
 		Enable:         false,
@@ -102,16 +109,35 @@ func readApplicationYaml() {
 		logger.Error("读取service-register配置文件失败", err.Error())
 	}
 	err = yaml.Unmarshal(swaggerData, &resultMap)
-	var apiConf ApiRegisterConf
-	err = mapstructure.Decode(resultMap["apiRegister"], &apiConf)
-	if err != nil {
-		logger.Error("解析service-register配置信息错误", err.Error())
+	if NCNotEmpty[any](resultMap["apiRegister"]) {
+		var apiConf ApiRegisterConf
+		err = mapstructure.Decode(resultMap["apiRegister"], &apiConf)
+		if err != nil {
+			logger.Error("解析service-register配置信息错误", err.Error())
+		}
+		PluginConfig.ApiConf = &apiConf
+	} else {
+		PluginConfig.ApiConf = defaultApiConf()
 	}
-	var appConf AppRegisterConf
-	err = mapstructure.Decode(resultMap["appRegister"], &appConf)
-	if err != nil {
-		logger.Error("解析service-register配置信息错误", err.Error())
+
+	if NCNotEmpty[any](resultMap["appRegister"]) {
+		var appConf AppRegisterConf
+		err = mapstructure.Decode(resultMap["appRegister"], &appConf)
+		if err != nil {
+			logger.Error("解析service-register配置信息错误", err.Error())
+		}
+		PluginConfig.AppConf = &appConf
+	} else {
+		PluginConfig.AppConf = defaultAppConf()
 	}
-	PluginConfig.ApiConf = &apiConf
-	PluginConfig.AppConf = &appConf
+}
+
+func NCIsEmpty[T any](v T) bool {
+	var zero T
+	return reflect.DeepEqual(v, zero)
+}
+
+func NCNotEmpty[T any](v T) bool {
+	var zero T
+	return !reflect.DeepEqual(v, zero)
 }
