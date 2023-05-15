@@ -13,7 +13,7 @@ func GetFileInfo(fileName string) ([]byte, error) {
 	pkg := strings.Replace(dir, "\\", "/", -1)
 	fileName = path.Join(pkg, "", fileName)
 	if !file.FileExists(fileName) {
-		return nil, errors.New("找不到对应的swagger文件，pathName：" + fileName)
+		return nil, errors.New("找不到对应的文件，pathName：" + fileName)
 	}
 	content, err := os.ReadFile(fileName)
 	return content, err
