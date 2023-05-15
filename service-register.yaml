@@ -1,11 +1,19 @@
 apiRegister:
+  # 是否启用插件
   enable: true
-  registerHost: http://10.101.12.156:38233
+  # 能力中心地址，默认采用svc调用模式（必须在os内调用）
+  registerHost: http://isc-orchestration-service:38233
+  # swagger插件生成的json文件目录，/代表的是根目录也就是main.go文件同级，默认按如下方式填写（swagger插件默认生成对应路径）
   swaggerFilePath: /docs/swagger.json
-  permissionHost: http://10.101.12.156:32100
-  apiManagerHost: http://10.101.12.156:40106
+  # 用户中心地址，需要获取授权token，默认按如下方式填写
+  permissionHost: http://isc-permission-service:32100
+  # api管理平面地址，默认按如下方式填写
+  apiManagerHost: http://dros-api-manage-service:40106
+  # 应用在能力中心的名字，对应main.go文件中swagger配置参数tag.name
   groupName: 插件管理
+  # 应用在api管理平面的code，需要在管理平面上事先申请
   apiServiceCode: dros-go-plugin
+  # 应用类型，默认NATIVE
   type: NATIVE
 appRegister:
   # 是否执行自动注册
