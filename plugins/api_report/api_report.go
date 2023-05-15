@@ -10,6 +10,7 @@ import (
 	"github.com/alkaidos/dros-go-plugin/proxy/user_proxy_vo"
 	baseHttp "github.com/isyscore/isc-gobase/http"
 	"github.com/isyscore/isc-gobase/logger"
+	"io"
 	"net/http"
 )
 
@@ -73,9 +74,13 @@ func registerApi() error {
 		//logger.Error("注册服务api信息:请求能力中心返回结果失败，原因:" + rsp.Message)
 		return errors.New("注册服务api信息:请求能力中心返回结果失败，原因:" + rsp.Message)
 	}
-	categoryId, err := getCategoryId(header)
+	categoryId, err := getCategoryId(token)
 	if err != nil {
 		return err
+	}
+
+	if categoryId <= -1 {
+		return errors.New("注册api:获取不到应用在能力中心的注册的分组id")
 	}
 
 	err = updateAppInfoByCategoryId(categoryId)
@@ -85,18 +90,35 @@ func registerApi() error {
 	return nil
 }
 
-func getCategoryId(header http.Header) (int, error) {
-
+func getCategoryId(token string) (int, error) {
+	header := http.Header{}
+	header.Add("token", token)
+	header.Set("Content-Type", "application/json")
+	client := http.Client{}
 	// 获取上传的categoryId
-	caIDParamsMap := map[string]string{}
-	caIDParamsMap["name"] = plugins.PluginConfig.ApiConf.GroupName
-	caIDParamsMap["type"] = plugins.PluginConfig.ApiConf.Type
-	_, _, data, err := baseHttp.Get(plugins.PluginConfig.ApiConf.RegisterHost+"/api/orchestration/capc/category/page", header, caIDParamsMap)
+	httpRequest, err := http.NewRequest("GET",
+		plugins.PluginConfig.ApiConf.RegisterHost+"/api/orchestration/capc/category/page", nil)
 	if err != nil {
 		return -1, errors.New("注册服务api信息:请求查询应用分组id失败" + err.Error())
 	}
+	q := httpRequest.URL.Query()
+	q.Add("name", plugins.PluginConfig.ApiConf.GroupName)
+	q.Add("type", plugins.PluginConfig.ApiConf.Type)
+	httpRequest.URL.RawQuery = q.Encode()
+	if header != nil {
+		httpRequest.Header = header
+	}
+	resp, err := client.Do(httpRequest)
+	if err != nil {
+		return -1, errors.New("注册服务api信息:请求查询应用分组id失败" + err.Error())
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != 200 {
+		return -1, errors.New("注册服务api信息:请求查询应用分组id失败,status code error:" + resp.Status)
+	}
+	body, err := io.ReadAll(resp.Body)
 	var caIdRsp base_proxy_vo.HttpResult[[]isc_category_vo.IscCategoryDTO]
-	err = json.Unmarshal(data.([]byte), &caIdRsp)
+	err = json.Unmarshal(body, &caIdRsp)
 	if err != nil {
 		//logger.Error("注册服务api信息:请求能力中心解析结果失败", err.Error())
 		return -1, errors.New("注册服务api信息:查询应用分组id失败" + err.Error())

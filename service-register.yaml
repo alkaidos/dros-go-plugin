@@ -1,15 +1,15 @@
 apiRegister:
   enable: true
-  registerHost: http://10.101.12.158:38080
+  registerHost: http://10.101.12.156:38233
   swaggerFilePath: /docs/swagger.json
   permissionHost: http://10.101.12.156:32100
-  apiManagerHost: http://dros-api-manager-service:40106
+  apiManagerHost: http://10.101.12.156:40106
   groupName: 插件管理
-  apiServiceName: dros-go-plugin
+  apiServiceCode: dros-go-plugin
   type: NATIVE
 appRegister:
   # 是否执行自动注册
-  enable: true
+  enable: false
   #连接超时 ms
   connectTimeout: 3000
   #读取超时 ms
