@@ -12,6 +12,7 @@ import (
 	"github.com/isyscore/isc-gobase/logger"
 	"io"
 	"net/http"
+	"strconv"
 )
 
 var register = false
@@ -28,12 +29,12 @@ type Post struct { //带结构标签，反引号来包围字符串
 func init() {
 	// api注册
 	if !register && plugins.PluginConfig.ApiConf.Enable {
-		logger.Warn("注册服务api信息:开始")
+		logger.Warn("注册服务api插件执行开始")
 		err := registerApi()
 		if err != nil {
-			panic("请求注册服务api信息失败,原因:" + err.Error())
+			panic(err.Error())
 		}
-		logger.Warn("注册服务api信息:成功")
+		logger.Warn("注册服务api插件执行成功")
 		register = true
 	}
 }
@@ -44,8 +45,9 @@ func registerApi() error {
 	header.Set("Content-Type", "application/json")
 	token, err := getToken()
 	if err != nil {
-		return errors.New("注册服务api信息:获取应用授权token失败" + err.Error())
+		return err
 	}
+	logger.Warn("请求能力中心注册服务api信息:获取应用授权token成功，" + token)
 	header.Add("token", token)
 	parameterMap := map[string]string{}
 	if plugins.PluginConfig.ApiConf.Type != "" {
@@ -54,39 +56,38 @@ func registerApi() error {
 	url := plugins.PluginConfig.ApiConf.RegisterHost
 	swaggerData, err := plugins.GetFileInfo(plugins.PluginConfig.ApiConf.SwaggerFilePath)
 	if err != nil {
-		//logger.Error("注册服务api信息:读取swaggerInfo失败", err.Error())
-		return errors.New("注册服务api信息:读取swaggerInfo失败" + err.Error())
+		return errors.New("请求能力中心注册服务api信息:读取swaggerInfo失败，原因" + err.Error())
 	}
+	logger.Warn("请求能力中心注册服务api信息:读取swagger文件成功")
 	var post Post
 	json.Unmarshal(swaggerData, &post)
 	_, _, data, err := baseHttp.Post(url+"/api/orchestration/capc/import/dynamic", header, parameterMap, post)
 	if err != nil {
-		//logger.Error("注册服务api信息:请求能力中心接口失败", err.Error())
-		return errors.New("注册服务api信息:请求能力中心接口失败" + err.Error())
+		return errors.New("请求能力中心注册服务api信息:请求能力中心接口失败，原因" + err.Error())
 	}
 	var rsp base_proxy_vo.HttpResult[any]
 	err = json.Unmarshal(data.([]byte), &rsp)
 	if err != nil {
-		//logger.Error("注册服务api信息:请求能力中心解析结果失败", err.Error())
-		return errors.New("注册服务api信息:请求能力中心解析结果失败" + err.Error())
+		return errors.New("请求能力中心注册服务api信息:能力中心返回结果解析失败，原因" + err.Error())
 	}
 	if rsp.Code != 0 {
-		//logger.Error("注册服务api信息:请求能力中心返回结果失败，原因:" + rsp.Message)
-		return errors.New("注册服务api信息:请求能力中心返回结果失败，原因:" + rsp.Message)
+		return errors.New("请求能力中心注册服务api信息:请求能力中心返回结果失败，原因" + rsp.Message)
 	}
+	logger.Warn("注册服务api插件执行情况:往能力中心上报api信息成功，开始获取api分组id")
 	categoryId, err := getCategoryId(token)
 	if err != nil {
 		return err
 	}
-
 	if categoryId <= -1 {
-		return errors.New("注册api:获取不到应用在能力中心的注册的分组id")
+		return errors.New("获取api分组id:获取不到应用在能力中心的注册的分组id")
 	}
-
+	logger.Warn("注册服务api插件执行情况:往能力中心上报api信息成功，读取上报后的api分组id成功，值为" + strconv.Itoa(categoryId))
+	logger.Warn("注册服务api插件执行情况:往开放平台上报分组id信息，开始")
 	err = updateAppInfoByCategoryId(categoryId)
 	if err != nil {
 		return err
 	}
+	logger.Warn("注册服务api插件执行情况:往开放平台上报分组id信息，成功")
 	return nil
 }
 
@@ -99,7 +100,7 @@ func getCategoryId(token string) (int, error) {
 	httpRequest, err := http.NewRequest("GET",
 		plugins.PluginConfig.ApiConf.RegisterHost+"/api/orchestration/capc/category/page", nil)
 	if err != nil {
-		return -1, errors.New("注册服务api信息:请求查询应用分组id失败" + err.Error())
+		return -1, errors.New("获取api分组id:构造请求参数失败" + err.Error())
 	}
 	q := httpRequest.URL.Query()
 	q.Add("name", plugins.PluginConfig.ApiConf.GroupName)
@@ -110,25 +111,24 @@ func getCategoryId(token string) (int, error) {
 	}
 	resp, err := client.Do(httpRequest)
 	if err != nil {
-		return -1, errors.New("注册服务api信息:请求查询应用分组id失败" + err.Error())
+		return -1, errors.New("获取api分组id:请求能力中心接口失败，原因" + err.Error())
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != 200 {
-		return -1, errors.New("注册服务api信息:请求查询应用分组id失败,status code error:" + resp.Status)
+		return -1, errors.New("获取api分组id:请求查询应用分组id失败,status code error:" + resp.Status)
 	}
 	body, err := io.ReadAll(resp.Body)
 	var caIdRsp base_proxy_vo.HttpResult[[]isc_category_vo.IscCategoryDTO]
 	err = json.Unmarshal(body, &caIdRsp)
 	if err != nil {
-		//logger.Error("注册服务api信息:请求能力中心解析结果失败", err.Error())
-		return -1, errors.New("注册服务api信息:查询应用分组id失败" + err.Error())
+		return -1, errors.New("获取api分组id:能力中心返回结果解析失败，原因" + err.Error())
 	}
 	if caIdRsp.Code != 0 {
-		return -1, errors.New("注册服务api信息:请求能力中心返回结果失败，原因:" + caIdRsp.Message)
+		return -1, errors.New("获取api分组id:请求能力中心返回结果失败，原因" + caIdRsp.Message)
 	}
 
 	if len(caIdRsp.Data) <= 0 {
-		return -1, errors.New("注册服务api信息:上传api失败，原因:找不到上传后的分组")
+		return -1, errors.New("获取api分组id:找不到上传api信息后的分组")
 	}
 
 	for _, v := range caIdRsp.Data {
@@ -147,16 +147,15 @@ func updateAppInfoByCategoryId(categoryId int) error {
 	paramsMap["categoryId"] = categoryId
 	_, _, data, err := baseHttp.Put(plugins.PluginConfig.ApiConf.ApiManagerHost+"/api/app/api-manage/producer/update", header, nil, paramsMap)
 	if err != nil {
-		return errors.New("更新api服务基本信息,请求失败:" + err.Error())
+		return errors.New("开放平台上报分组id信息:请求失败，原因" + err.Error())
 	}
 	var rsp base_proxy_vo.HttpResult[api_manage_vo.ApiProducerInfo]
 	err = json.Unmarshal(data.([]byte), &rsp)
 	if err != nil {
-		//logger.Error("注册服务api信息:请求能力中心解析结果失败", err.Error())
-		return errors.New("更新api服务基本信息:" + err.Error())
+		return errors.New("开放平台上报分组id信息:解析返回结果失败，原因" + err.Error())
 	}
 	if rsp.Code != 0 {
-		return errors.New("注册服务api信息:请求能力中心返回结果失败，原因:" + rsp.Message)
+		return errors.New("开放平台上报分组id信息:开放平台返回结果失败，原因" + rsp.Message)
 	}
 
 	return nil
@@ -170,17 +169,16 @@ func getToken() (string, error) {
 	bodyMap["appSecret"] = "e6874c0a4b397e3d6b59"
 	_, _, data, err := baseHttp.Post(plugins.PluginConfig.ApiConf.PermissionHost+"/api/permission/app/token/grant", header, nil, bodyMap)
 	if err != nil {
-		logger.Error("上报api：请求获取token失败", err.Error())
-		return "", errors.New("上报api：请求获取token失败:" + err.Error())
+		return "", errors.New("获取token:请求用户中心获取token失败，原因" + err.Error())
 	} else {
 		var rsp base_proxy_vo.HttpResult[user_proxy_vo.AppAuthenticationDTO]
 		err = json.Unmarshal(data.([]byte), &rsp)
 		if err != nil {
-			return "", errors.New("上报api-请求获取token：解析返回结果失败:" + err.Error())
+			return "", errors.New("获取token:返回结果解析失败，原因" + err.Error())
 		}
 
 		if rsp.Code != 0 {
-			return "", errors.New("上报api-请求获取token：请求返回失败:" + rsp.Message)
+			return "", errors.New("获取token:返回失败，原因" + rsp.Message)
 		}
 		return rsp.Data.Token, nil
 	}
