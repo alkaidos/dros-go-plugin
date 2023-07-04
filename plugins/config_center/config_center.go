@@ -2,6 +2,7 @@ package config_center
 
 import (
 	"encoding/json"
+	"github.com/alkaidos/dros-go-plugin/plugins/cache_service"
 	"github.com/isyscore/isc-gobase/config"
 	"github.com/isyscore/isc-gobase/isc"
 	"github.com/isyscore/isc-gobase/logger"
@@ -154,6 +155,11 @@ func UpdateConfig(configurationVo *SysCommonConfigurationVo) (*RespStringDTO[int
 }
 
 func GetConfigStringValue(appName, key string) (string, error) {
+	cacheKey := appName + "_" + key
+	cacheValue, _ := cache_service.StringGet(cacheKey)
+	if cacheValue != "" {
+		return cacheValue, nil
+	}
 	rs, error := GetConfig(appName, key)
 	if error != nil {
 		return "", error
@@ -165,6 +171,7 @@ func GetConfigStringValue(appName, key string) (string, error) {
 	if len(rs.Data) > 0 {
 		data = rs.Data[0].Value
 	}
+	cache_service.StringSet(cacheKey, data, 1*time.Minute)
 	return data, nil
 }
 
