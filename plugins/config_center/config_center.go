@@ -15,17 +15,17 @@ import (
 
 var tenantId = "system"
 
-var configUrl = ""
+//var configUrl = ""
+//
+//func init() {
+//	config.LoadConfig()
+//	configUrl = config.GetValueString("app.configUrl")
+//	if configUrl == "" {
+//		logger.Error("读取config center 配置异常")
+//	}
+//}
 
-func init() {
-	config.LoadConfig()
-	configUrl = config.GetValueString("app.configUrl")
-	if configUrl == "" {
-		logger.Error("读取config center 配置异常")
-	}
-}
-
-func GetConfig(appName, key string) (*RespStringDTO[[]SysCommonConfiguration], error) {
+func GetConfig(configUrl, appName, key string) (*RespStringDTO[[]SysCommonConfiguration], error) {
 	url := configUrl + "/config/item/getConfigList?appName=" + appName
 	if key != "" {
 		url = url + "&key=" + key
@@ -163,13 +163,13 @@ func UpdateConfig(configurationVo *SysCommonConfigurationVo) (*RespStringDTO[int
 	return &resDto, nil
 }
 
-func GetConfigStringValue(appName, key string) (string, error) {
+func GetConfigStringValue(configUrl, appName, key string) (string, error) {
 	cacheKey := appName + "_" + key
 	cacheValue, _ := cache_service.StringGet(cacheKey)
 	if cacheValue != "" {
 		return cacheValue, nil
 	}
-	rs, error := GetConfig(appName, key)
+	rs, error := GetConfig(configUrl, appName, key)
 	if error != nil {
 		return "", error
 	}
