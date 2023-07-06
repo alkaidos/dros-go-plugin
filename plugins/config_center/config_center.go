@@ -15,17 +15,17 @@ import (
 
 var tenantId = "system"
 
-//var configUrl = ""
-//
-//func init() {
-//	config.LoadConfig()
-//	configUrl = config.GetValueString("app.configUrl")
-//	if configUrl == "" {
-//		logger.Error("读取config center 配置异常")
-//	}
-//}
+var configUrl = ""
 
-func GetConfig(configUrl, appName, key string) (*RespStringDTO[[]SysCommonConfiguration], error) {
+func init() {
+	//config.LoadConfig()
+	value := config.GetValueString("app.configUrl")
+	if value == "" {
+		logger.Warn("读取application.yum异常config center 配置失败,请通过调用InitConfigCenter方法初始化")
+	}
+}
+
+func GetConfig(appName, key string) (*RespStringDTO[[]SysCommonConfiguration], error) {
 	url := configUrl + "/config/item/getConfigList?appName=" + appName
 	if key != "" {
 		url = url + "&key=" + key
@@ -74,8 +74,9 @@ func GetConfig(configUrl, appName, key string) (*RespStringDTO[[]SysCommonConfig
 	return &resDto, nil
 }
 
-func InitConfig() {
-	InitConfigAndRegister("system")
+func InitConfigCenter(configUrlString string) {
+	configUrl = configUrlString
+	logger.Info("通过调用InitConfigCenter方法初始化成功")
 }
 
 func InitConfigAndRegister(tenantId string) {
@@ -163,13 +164,13 @@ func UpdateConfig(configurationVo *SysCommonConfigurationVo) (*RespStringDTO[int
 	return &resDto, nil
 }
 
-func GetConfigStringValue(configUrl, appName, key string) (string, error) {
+func GetConfigStringValue(appName, key string) (string, error) {
 	cacheKey := appName + "_" + key
 	cacheValue, _ := cache_service.StringGet(cacheKey)
 	if cacheValue != "" {
 		return cacheValue, nil
 	}
-	rs, error := GetConfig(configUrl, appName, key)
+	rs, error := GetConfig(appName, key)
 	if error != nil {
 		return "", error
 	}
