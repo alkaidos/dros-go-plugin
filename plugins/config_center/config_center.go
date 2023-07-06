@@ -15,8 +15,17 @@ import (
 
 var tenantId = "system"
 
+var configUrl = ""
+
+func init() {
+	config.LoadConfig()
+	configUrl = config.GetValueString("app.configUrl")
+	if configUrl == "" {
+		logger.Error("读取config center 配置异常")
+	}
+}
+
 func GetConfig(appName, key string) (*RespStringDTO[[]SysCommonConfiguration], error) {
-	configUrl := config.GetValueString("app.configUrl")
 	url := configUrl + "/config/item/getConfigList?appName=" + appName
 	if key != "" {
 		url = url + "&key=" + key
