@@ -29,9 +29,12 @@ appRegister:
   appName: 插件管理
   #必填:服务开关, 当希望与OS进行联调时开启, 当希望仅本地运行时关闭
   isMainService: true
-  #如果需要在菜单栏显示的，需要设置in-menu，否则不要设置
+  #1.任意位置显示,桌面和服务管理列表;2.不在桌面显示;3.不在服务管理列表显示
   in-menu: 2
-  secondType: 5
+  # 0默认应用(系统应用);3第三方应用;5外嵌应用;6轻应用;10嵌入式应用
+  type: 3
+  #1.底层应用;2.核心应用;3.业务应用;4.存储应用;5.前端应用;6.基础应用
+  secondType: 3
   redirectUrl: http://www.baidu.com
   #isMainService为true的情况下，需要填写serviceList，否则
   serviceList:
@@ -60,4 +63,3 @@ appRegister:
   # 配置应用注册中心地址，应用在os的k8s启动时会调用这个服务进行自动注册，固定值
   registerAppUrl: http://isc-route-service:31000
   app-version: v1.0.0
-  type: 3
