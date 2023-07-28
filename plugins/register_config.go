@@ -47,11 +47,11 @@ type AppRegisterConf struct {
 	AppCode        string                `json:"appCode" yaml:"appCode"`
 	AppName        string                `json:"appName" yaml:"appName"`
 	IsMainService  bool                  `json:"isMainService" yaml:"isMainService"`
-	InMenu         int                   `json:"in-menu" yaml:"in-menu"`
+	InMenu         int                   `json:"inMenu" yaml:"inMenu"`
 	SecondType     int                   `json:"secondType" yaml:"secondType"`
 	RegisterAppUrl string                `json:"registerAppUrl" yaml:"registerAppUrl"`
 	RedirectUrl    string                `json:"redirectUrl" yaml:"redirectUrl"`
-	AppVersion     string                `json:"app-version" yaml:"app-version"`
+	AppVersion     string                `json:"appVersion" yaml:"appVersion"`
 	Type           int                   `yaml:"type"`
 	ServiceList    []ServiceRegisterInfo `json:"serviceList"`
 	ServiceName    string                `json:"serviceName" yaml:"serviceName"`
