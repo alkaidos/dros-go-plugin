@@ -29,20 +29,37 @@ appRegister:
   appName: 插件管理
   #必填:服务开关, 当希望与OS进行联调时开启, 当希望仅本地运行时关闭
   isMainService: true
-  in-menu: 2
+  #1.任意位置显示,桌面和服务管理列表;2.不在桌面显示;3.不在服务管理列表显示
+  inMenu: 2
+  # 0默认应用(系统应用);3第三方应用;5外嵌应用;6轻应用;10嵌入式应用
+  type: 3
+  #1.底层应用;2.核心应用;3.业务应用;4.存储应用;5.前端应用;6.基础应用
+  secondType: 3
+  redirectUrl: http://www.baidu.com
+  #isMainService为true的情况下，需要填写serviceList，否则
+  serviceList:
+    - serviceId: dros-go-plugin-test1-service
+      serviceName: dros-go-plugin-test1-service
+      servicePath: /api/app/dros-go-plugin-test1/**
+      serviceUrl: http://dros-go-plugin-test1-service:99999
+      excludeUrl: /all
+    - serviceId: dros-go-plugin-test2-service
+      serviceName: dros-go-plugin-test2-service
+      servicePath: /api/app/dros-go-plugin-test1/**
+      serviceUrl: http://dros-go-plugin-test2-service:99999
+      excludeUrl: /all
+  ###### isMainService为false的情况下，下面的字段才会生效，或者使用serviceList进行服务注册 ######
+  # serviceId 由运维同学事先分配，需要和部署脚本里面的定义保持一致
+  serviceId: dros-go-plugin-service
   # serviceName 由运维同学事先分配，需要和部署脚本里面的定义保持一致
   serviceName: dros-go-plugin-service
-  # serviceId = serviceName
-  serviceId: dros-go-plugin-service
   # 配置应用服务对外访问的路径，不配置会导致url无法被访问
   servicePath: /api/app/dros-go-plugin/**
-  # 配置网关层service，固定值
-  serverHost: http://isc-route-service:31000
-  # 配置应用注册中心地址，应用在os的k8s启动时会调用这个服务进行自动注册，固定值
-  registerAppUrl: http://isc-route-service:31000
-  # 配置应用服务访问的服务入口，格式为serviceName:servicePort
+  # svc地址
   serviceUrl: http://dros-go-plugin-service:99999
   # 配置不需要进行登录校验的url，该配置会在route-service层绕过登录插件
   excludeUrl: /all
-  app-version: v1.0.0
-  type: 3
+  ###### isMainService为false的情况下，下面的字段才会生效，或者使用serviceList进行服务注册 ######
+  # 配置应用注册中心地址，应用在os的k8s启动时会调用这个服务进行自动注册，固定值
+  registerAppUrl: http://isc-route-service:31000
+  appVersion: v1.0.0
