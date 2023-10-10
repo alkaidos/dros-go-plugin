@@ -1,7 +1,9 @@
 package service_register
 
 import (
+	"encoding/json"
 	"github.com/alkaidos/dros-go-plugin/plugins"
+	"github.com/alkaidos/dros-go-plugin/proxy/base_proxy_vo"
 	baseHttp "github.com/isyscore/isc-gobase/http"
 	"github.com/isyscore/isc-gobase/logger"
 	"net/http"
@@ -69,10 +71,15 @@ func registerMainService() {
 	if plugins.PluginConfig.AppConf.RedirectUrl != "" {
 		parameter["redirectUrl"] = plugins.PluginConfig.AppConf.RedirectUrl
 	}
-	_, _, _, err := baseHttp.Post(plugins.PluginConfig.AppConf.RegisterAppUrl+"/api/rc-application/application/register", header, nil, parameter)
+	_, _, body, err := baseHttp.Post(plugins.PluginConfig.AppConf.RegisterAppUrl+"/api/rc-application/application/register", header, nil, parameter)
 	if err != nil {
 		panic("请求注册应用信息失败,原因:" + err.Error())
 	} else {
+		var rsp base_proxy_vo.HttpResult[any]
+		err = json.Unmarshal(body.([]byte), &rsp)
+		if rsp.Code != 0 {
+			panic("注册服务接口返回失败，原因：" + rsp.Message)
+		}
 		logger.Warn("请求注册应用信息成功")
 	}
 }
@@ -143,11 +150,16 @@ func registerSubServiceInfo() {
 	parameter["servicePath"] = plugins.PluginConfig.AppConf.ServicePath
 	parameter["serviceUrl"] = plugins.PluginConfig.AppConf.ServiceUrl
 	parameter["serviceEnable"] = true
-	_, _, _, err := baseHttp.Post(plugins.PluginConfig.AppConf.RegisterAppUrl+"/api/rc-application/open/service/register", header, nil, parameter)
+	_, _, body, err := baseHttp.Post(plugins.PluginConfig.AppConf.RegisterAppUrl+"/api/rc-application/open/service/register", header, nil, parameter)
 	if err != nil {
 		//logger.Error("请求注册服务信息失败", err.Error())
 		panic("请求注册服务信息失败,原因:" + err.Error())
 	} else {
+		var rsp base_proxy_vo.HttpResult[any]
+		err = json.Unmarshal(body.([]byte), &rsp)
+		if rsp.Code != 0 {
+			panic("注册服务接口返回失败，原因：" + rsp.Message)
+		}
 		logger.Warn("请求注册服务信息成功")
 	}
 }
@@ -162,11 +174,16 @@ func registerSubServiceRoute() {
 	parameter["url"] = plugins.PluginConfig.AppConf.ServiceUrl
 	parameter["path"] = plugins.PluginConfig.AppConf.ServicePath
 	parameter["excludeUrl"] = strings.Split(plugins.PluginConfig.AppConf.ExcludeUrl, ";")
-	_, _, _, err := baseHttp.Put(plugins.PluginConfig.AppConf.RegisterAppUrl+"/api/route/update/exclude", header, nil, parameter)
+	_, _, body, err := baseHttp.Put(plugins.PluginConfig.AppConf.RegisterAppUrl+"/api/route/update/exclude", header, nil, parameter)
 	if err != nil {
 		//logger.Error("请求注册路由信息失败", err.Error())
 		panic("请求注册路由信息失败,原因:" + err.Error())
 	} else {
+		var rsp base_proxy_vo.HttpResult[any]
+		err = json.Unmarshal(body.([]byte), &rsp)
+		if rsp.Code != 0 {
+			panic("注册路由信息接口返回失败，原因：" + rsp.Message)
+		}
 		logger.Warn("请求注册路由信息成功")
 	}
 }
