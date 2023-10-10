@@ -23,6 +23,7 @@ func init() {
 	if value == "" {
 		logger.Warn("读取application.yum异常config center 配置失败,请通过调用InitConfigCenter方法初始化")
 	}
+	configUrl = value
 }
 
 func GetConfig(appName, key string) (*RespStringDTO[[]SysCommonConfiguration], error) {
