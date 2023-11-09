@@ -110,7 +110,7 @@ func checkInfoForMainService() {
 	}
 
 	for _, service := range plugins.PluginConfig.AppConf.ServiceList {
-		if !strings.HasSuffix(service.ServiceId, "-ui") {
+		if !strings.HasSuffix(service.ServiceId, "-ui") && !service.JumpCheck {
 			errorMsg := checkServiceInfoIllegal(service)
 			if errorMsg != "" {
 				panic(errorMsg)

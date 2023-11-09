@@ -71,6 +71,7 @@ type ServiceRegisterInfo struct {
 	ExcludeUrl    string `json:"excludeUrl"`
 	SpecialUrl    string `json:"specialUrl"`
 	ServiceEnable bool   `json:"serviceEnable"`
+	JumpCheck     bool   `json:"jumpCheck"`
 	Retryable     bool   `json:"retryable"`
 	StripPrefix   bool   `json:"stripPrefix"`
 }

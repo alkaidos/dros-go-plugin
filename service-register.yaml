@@ -42,6 +42,7 @@ appRegister:
       serviceName: dros-go-plugin-test1-service
       servicePath: /api/app/dros-go-plugin-test1/**
       serviceUrl: http://dros-go-plugin-test1-service:99999
+      jumpCheck: true
       excludeUrl: /all
     - serviceId: dros-go-plugin-test2-service
       serviceName: dros-go-plugin-test2-service
